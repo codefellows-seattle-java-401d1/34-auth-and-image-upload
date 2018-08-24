@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"/>
 
         <LinearLayout
+            android:id="@+id/loggedOutOptions"
             android:layout_weight="3"
             android:layout_width="0sp"
             android:layout_height="wrap_content"
@@ -44,6 +45,39 @@
             <Button
                 android:id="@+id/anonymousLogin"
                 android:text="@string/login_anonymously"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/loggedInOptions"
+            android:layout_weight="3"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <ImageView
+                android:src="@drawable/logo"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/userInfoLable"
+                android:text="@string/you_re_logged_in_as"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/usernameInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/proceedToFeed"
+                android:text="@string/proceed_to_feed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <Button
+                android:id="@+id/logout"
+                android:text="@string/logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
