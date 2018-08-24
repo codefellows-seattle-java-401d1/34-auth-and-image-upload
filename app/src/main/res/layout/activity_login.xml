@@ -46,6 +46,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
             <Button
+                android:id="@+id/phoneLogin"
+                android:text="@string/login_with_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <Button
                 android:id="@+id/anonymousLogin"
                 android:text="@string/login_anonymously"
                 android:layout_width="match_parent"

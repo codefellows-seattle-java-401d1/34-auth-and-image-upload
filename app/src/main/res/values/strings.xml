@@ -7,4 +7,8 @@
     <string name="logout">logout</string>
     <string name="password">password</string>
     <string name="email">email</string>
+    <string name="login_with_phone">Login With Phone</string>
+    <string name="take_picture">Take Picture</string>
+    <string name="publish_photo">Publish Photo</string>
+    <string name="description">description</string>
 </resources>
