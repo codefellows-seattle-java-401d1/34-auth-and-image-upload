@@ -7,15 +7,27 @@ import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.EditText;
+import android.widget.ImageView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class PhotoUploadActivity extends AppCompatActivity {
+
+    @BindView(R.id.imagePreview) ImageView mImagePreview;
+    @BindView(R.id.descriptionInput) EditText mDescriptionInput;
+
 
     private static final int REQUEST_SAVE_PHOTO = 1;
     private String mCurrentPhotoPath;
@@ -25,7 +37,20 @@ public class PhotoUploadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_upload);
 
+        ButterKnife.bind(this);
+
         dispatchTakePictureIntent();
+    }
+
+    @OnClick(R.id.upload)
+    public void upload() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+        String description = mDescriptionInput.getText().toString();
+
+        Log.d("UPLOAD", uid + " " + description);
+
+        finish();
     }
 
 
@@ -45,7 +70,7 @@ public class PhotoUploadActivity extends AppCompatActivity {
             // Continue only if the File was successfully created
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.example.moonmayor.firebasephotos",
+                        "com.amycohen.lab34authimage",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_SAVE_PHOTO);
