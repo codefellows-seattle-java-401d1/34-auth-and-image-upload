@@ -5,4 +5,6 @@
     <string name="you_re_logged_in_as">You\'re logged in as:</string>
     <string name="proceed_to_feed">Proceed To Feed</string>
     <string name="logout">logout</string>
+    <string name="password">password</string>
+    <string name="email">email</string>
 </resources>
