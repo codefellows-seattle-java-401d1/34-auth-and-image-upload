@@ -57,6 +57,30 @@ public class PhotoUploadActivity extends AppCompatActivity {
         dispatchTakePictureIntent();
     }
 
+    //From https://gist.github.com/geluso/8ce147ccfe34671245f3574634d95225
+    public void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+                ex.printStackTrace();
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.amycohen.lab34authimage",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_SAVE_PHOTO);
+            }
+        }
+    }
+
     @OnClick(R.id.upload)
     public void upload() {
 
@@ -108,30 +132,6 @@ public class PhotoUploadActivity extends AppCompatActivity {
         newPhoto.child("description").setValue(description);
         newPhoto.child("imageUrl").setValue(storageUrl.toString());
 
-    }
-
-    //From https://gist.github.com/geluso/8ce147ccfe34671245f3574634d95225
-    public void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-                ex.printStackTrace();
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.amycohen.lab34authimage",
-                        photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_SAVE_PHOTO);
-            }
-        }
     }
 
     @Override
