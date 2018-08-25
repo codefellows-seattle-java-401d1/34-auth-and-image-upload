@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Catstagram</string>
+    <string name="anonymous_login">anonymous login</string>
+    <string name="go_to_feed">go to feed</string>
+    <string name="logged_in_as">you\'re logged in as:</string>
+    <string name="email_login">email login</string>
 </resources>
