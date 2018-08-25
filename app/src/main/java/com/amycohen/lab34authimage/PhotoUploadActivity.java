@@ -133,6 +133,8 @@ public class PhotoUploadActivity extends AppCompatActivity {
         newPhoto.child("description").setValue(description);
         newPhoto.child("imageUrl").setValue(storageUrl.toString());
 
+        populateFeed();
+
     }
 
     @Override
@@ -182,5 +184,10 @@ public class PhotoUploadActivity extends AppCompatActivity {
         mImagePreview.setImageBitmap(bitmap);
 
         mBitmap = bitmap;
+    }
+
+    public void populateFeed() {
+        Intent intent = new Intent(this, FeedActivity.class);
+        startActivity(intent);
     }
 }
