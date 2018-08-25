@@ -3,11 +3,20 @@ package com.amycohen.lab34authimage;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class FeedActivity extends AppCompatActivity {
+
+    @BindView(R.id.feed) RecyclerView feed;
+    private LinearLayoutManager linearLayoutManager;
+    private FeedAdapter feedAdapter;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,6 +24,12 @@ public class FeedActivity extends AppCompatActivity {
         setContentView(R.layout.activity_feed);
 
         ButterKnife.bind(this);
+
+        linearLayoutManager = new LinearLayoutManager(this);
+        feedAdapter = new FeedAdapter(allStatuses);
+
+        feed.setLayoutManager(linearLayoutManager);
+        feed.setAdapter(feedAdapter);
 
     }
 
