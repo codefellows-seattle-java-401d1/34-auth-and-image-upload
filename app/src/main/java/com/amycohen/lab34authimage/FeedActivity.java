@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -16,6 +18,7 @@ public class FeedActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private FeedAdapter feedAdapter;
 
+    List<Feed> allFeedItems;
 
 
     @Override
@@ -26,7 +29,7 @@ public class FeedActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         linearLayoutManager = new LinearLayoutManager(this);
-        feedAdapter = new FeedAdapter(allStatuses);
+        feedAdapter = new FeedAdapter(allFeedItems);
 
         feed.setLayoutManager(linearLayoutManager);
         feed.setAdapter(feedAdapter);
