@@ -18,6 +18,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -62,26 +64,20 @@ public class PhotoUploadActivity extends AppCompatActivity {
             return;
         }
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = user.getUid();
-        String description = mDescriptionInput.getText().toString();
-
-        Log.d("UPLOAD", uid + " " + description);
-
-        StorageReference riversRef = mStorageRef.child("photos/" + mCurrentPhotoPath);
+        StorageReference photoRef = mStorageRef.child("photos/" + mCurrentPhotoPath);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
 
-        riversRef.putBytes(data)
+        photoRef.putBytes(data)
         .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // Get a URL to the uploaded content
                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
 
-                finish();
+                PhotoUploadActivity.this.saveImageUrlToDatabase(downloadUrl);
             }
         })
 
@@ -92,6 +88,25 @@ public class PhotoUploadActivity extends AppCompatActivity {
                 exception.printStackTrace();
             }
         });
+
+    }
+
+    private void saveImageUrlToDatabase(Uri storageUrl) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        String uid = user.getUid();
+        String description = mDescriptionInput.getText().toString();
+
+        Log.d("UPLOAD", uid + " " + description);
+
+        // Write a message to the database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("photos");
+
+        DatabaseReference newPhoto = myRef.push();
+        newPhoto.child("uid").setValue(uid);
+        newPhoto.child("description").setValue(description);
+        newPhoto.child("imageUrl").setValue(storageUrl.toString());
 
     }
 
