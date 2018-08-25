@@ -15,8 +15,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -37,6 +41,7 @@ public class PhotoUploadActivity extends AppCompatActivity {
     private static final int REQUEST_SAVE_PHOTO = 1;
     private String mCurrentPhotoPath;
     private Bitmap mBitmap;
+    private StorageReference mStorageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,27 +50,25 @@ public class PhotoUploadActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+
         dispatchTakePictureIntent();
     }
 
     @OnClick(R.id.upload)
     public void upload() {
+
+        if (mBitmap == null) {
+            return;
+        }
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
         String description = mDescriptionInput.getText().toString();
 
         Log.d("UPLOAD", uid + " " + description);
 
-        uploadFile();
-    }
-
-    public void uploadFile() {
-
-        if (mBitmap == null) {
-            return;
-        }
-
-        StorageReference riversRef = mStorageRef.child("photos/mostrecent.jpg");
+        StorageReference riversRef = mStorageRef.child("photos/" + mCurrentPhotoPath);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
