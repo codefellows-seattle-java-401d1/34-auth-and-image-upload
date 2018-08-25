@@ -41,7 +41,7 @@ public class PhotoUploadActivity extends AppCompatActivity {
 
 
     private static final int REQUEST_SAVE_PHOTO = 1;
-    
+
     private String mCurrentPhotoPath;
     private Bitmap mBitmap;
     private StorageReference mStorageRef;
