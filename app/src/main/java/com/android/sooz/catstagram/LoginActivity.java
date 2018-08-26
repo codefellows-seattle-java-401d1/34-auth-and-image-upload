@@ -29,8 +29,8 @@ public class LoginActivity extends AppCompatActivity {
 
     //Options when not logged in (i.e. Logged out)
 
-    @BindView(R.id.loggedOutOptions)
-    public Layout mLoggedOutOptions;
+//    @BindView(R.id.loggedOutOptions)
+//    public View mLoggedOutOptions;
 
     @BindView(R.id.email)
     public TextView mEmail;
@@ -46,8 +46,8 @@ public class LoginActivity extends AppCompatActivity {
 
     //Options when already logged in
 
-    @BindView(R.id.loggedInOptions)
-    public Layout mLoggedInOptions;
+//    @BindView(R.id.loggedInOptions)
+//    public View mLoggedInOptions;
 
     @BindView(R.id.usernameInfoLabel)
     public TextView mSignedInAs;
@@ -55,8 +55,8 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.usernameInfo)
     public TextView mUsernameInfo;
 
-    @BindView(R.id.proccedToFeed)
-    public Button mProccedToFeed;
+    @BindView(R.id.procceedToFeed)
+    public Button mProcceedToFeed;
 
     @BindView(R.id.logout)
     public Button mLogout;
@@ -98,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mSignedInAs.setVisibility(View.VISIBLE);
         mUsernameInfo.setVisibility(View.VISIBLE);
-        mProccedToFeed.setVisibility(View.VISIBLE);
+        mProcceedToFeed.setVisibility(View.VISIBLE);
         mLogout.setVisibility(View.VISIBLE);
     }
 
@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mSignedInAs.setVisibility(View.GONE);
         mUsernameInfo.setVisibility(View.GONE);
-        mProccedToFeed.setVisibility(View.GONE);
+        mProcceedToFeed.setVisibility(View.GONE);
         mLogout.setVisibility(View.GONE);
     }
 
@@ -145,29 +145,32 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.anonLogin)
     public void anonLogin() {
-        mAuth.signInAnonymously()
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
+        Log.d("AUTH", "mauth null?: " + mAuth);
+        Task<AuthResult> task = mAuth.signInAnonymously();
+        Log.d("AUTH", "task null?: " + task);
+        task.addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                Log.d("AUTH", "complete");
+                if (task.isSuccessful()) {
+                    Log.d("AUTH", "success");
+                    //report sign in success with signed in info
+                    Log.d(TAG, "createAnonymousUser: successful");
 
-                            //report sign in success with signed in info
-                            Log.d(TAG, "createAnonymousUser: successful");
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    updateUI(user);
 
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-
-                            //toast set up review in lecture and from
-                            //https://developer.android.com/guide/topics/ui/notifiers/toasts
-                            CharSequence text = "successfully logged in anonymously as: " + user;
-                            Toast.makeText(LoginActivity.this, text, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                    //toast set up review in lecture and from
+                    //https://developer.android.com/guide/topics/ui/notifiers/toasts
+                    CharSequence text = "successfully logged in anonymously as: " + user;
+                    Toast.makeText(LoginActivity.this, text, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
-    @OnClick(R.id.proccedToFeed)
-    public void proceedtoFeed() {
+    @OnClick(R.id.procceedToFeed)
+    public void procceedToFeed() {
         FirebaseUser user = mAuth.getCurrentUser();
         Intent intent = new Intent(this, FeedActivity.class);
         intent.putExtra("uid", user.getUid());
