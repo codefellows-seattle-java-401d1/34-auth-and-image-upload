@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">lab34authimage</string>
+    <string name="login_anonymously">Login Anonymously</string>
+    <string name="login_with_email">Login With Email</string>
+    <string name="you_re_logged_in_as">You\'re logged in as:</string>
+    <string name="proceed_to_feed">Proceed To Feed</string>
+    <string name="logout">logout</string>
+    <string name="password">password</string>
+    <string name="email">email</string>
+    <string name="login_with_phone">Login With Phone</string>
+    <string name="take_picture">Take Picture</string>
+    <string name="publish_photo">Publish Photo</string>
+    <string name="description">description</string>
+</resources>
