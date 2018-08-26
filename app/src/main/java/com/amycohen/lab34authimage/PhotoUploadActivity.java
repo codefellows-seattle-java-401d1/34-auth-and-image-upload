@@ -133,6 +133,8 @@ public class PhotoUploadActivity extends AppCompatActivity {
         newPhoto.child("description").setValue(description);
         newPhoto.child("imageUrl").setValue(storageUrl.toString());
 
+        populateFeed();
+
     }
 
     @Override
@@ -167,8 +169,8 @@ public class PhotoUploadActivity extends AppCompatActivity {
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
         bmOptions.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
+        int photoW = bmOptions.outWidth/2;
+        int photoH = bmOptions.outHeight/2;
 
         // Determine how much to scale down the image
         int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
@@ -182,5 +184,10 @@ public class PhotoUploadActivity extends AppCompatActivity {
         mImagePreview.setImageBitmap(bitmap);
 
         mBitmap = bitmap;
+    }
+
+    public void populateFeed() {
+        Intent intent = new Intent(this, FeedActivity.class);
+        startActivity(intent);
     }
 }
