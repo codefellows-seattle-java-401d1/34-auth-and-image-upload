@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">MyInsta</string>
+    <string name="app_name">AdventureGram</string>
+    <string name="browse_anonymously">browse anonymously</string>
+    <string name="login">login</string>
+    <string name="password">password</string>
+    <string name="username">username</string>
+    <string name="welcome_to_adventuregram">Welcome to AdventureGram</string>
 </resources>
