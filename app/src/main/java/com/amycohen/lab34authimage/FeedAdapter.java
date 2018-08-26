@@ -38,6 +38,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyFeedViewHold
     @Override
     public int getItemCount() {
         return mFeed.size();
+//        return 0;
     }
 
     public void replaceList(List<Feed> feedItems) {
@@ -56,23 +57,23 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyFeedViewHold
         private Feed mFeedItems;
 
 
-        public MyFeedViewHolder(View itemView) {
-            super(itemView);
-            mView = itemView;
+    public MyFeedViewHolder(View itemView) {
+        super(itemView);
+        mView = itemView;
 
-            userID = mView.findViewById(R.id.userID);
-            description = mView.findViewById(R.id.description);
-            publishedPhoto = mView.findViewById(R.id.publishedPhoto);
+        userID = mView.findViewById(R.id.userID);
+        description = mView.findViewById(R.id.description);
+        publishedPhoto = mView.findViewById(R.id.publishedPhoto);
 
-        }
+    }
 
-        public void bind(Feed feed) {
-            mFeedItems = feed;
+    public void bind(Feed feed) {
+        mFeedItems = feed;
 
-            this.userID.setText(feed.uid);
-            this.description.setText(feed.description);
+        this.userID.setText(feed.uid);
+        this.description.setText(feed.description);
 //            this.publishedPhoto.setImageBitmap(bitmap);
-        }
+    }
 
     }
 }
