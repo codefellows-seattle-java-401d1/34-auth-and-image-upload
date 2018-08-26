@@ -162,8 +162,10 @@ public class PhotoUploadActivity extends AppCompatActivity {
 
     private void setPictureFromFile() {
         // Get the dimensions of the View
-        int targetW = mImagePreview.getWidth();
-        int targetH = mImagePreview.getHeight();
+//        int targetW = mImagePreview.getWidth();
+//        int targetH = mImagePreview.getHeight();
+        int targetW = mImagePreview.getWidth()/2;
+        int targetH = mImagePreview.getHeight()/2;
 
         // Get the dimensions of the bitmap
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
@@ -171,6 +173,8 @@ public class PhotoUploadActivity extends AppCompatActivity {
         BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
         int photoW = bmOptions.outWidth;
         int photoH = bmOptions.outHeight;
+//        int photoW = bmOptions.outWidth/2;
+//        int photoH = bmOptions.outHeight/2;
 
         // Determine how much to scale down the image
         int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
