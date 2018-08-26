@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.droid.yutani.myinsta.R;
 import com.droid.yutani.myinsta.model.Post;
-import com.squareup.picasso.Picasso;
+import com.koushikdutta.ion.Ion;
 
 import java.util.List;
 
@@ -63,10 +63,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         public void bind(Post post) {
             mPost = post;
 
-            Picasso.get().load(post.imgUrl).into(mPostImg);
-
             mAuthor.setText(post.author);
             mDescription.setText(post.description);
+
+            Ion.with(mPostImg).load(post.imgUrl);
         }
     }
 }
