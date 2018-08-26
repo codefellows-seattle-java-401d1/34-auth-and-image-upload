@@ -38,7 +38,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyFeedViewHold
     @Override
     public int getItemCount() {
         return mFeed.size();
-//        return 0;
     }
 
     public void replaceList(List<Feed> feedItems) {
