@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.koushikdutta.ion.Ion;
+
 import java.util.List;
 
 import static android.support.v7.widget.RecyclerView.*;
@@ -71,7 +73,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyFeedViewHold
 
         this.userID.setText(feed.uid);
         this.description.setText(feed.description);
-//            this.publishedPhoto.setImageBitmap(bitmap);
+        Ion.with(publishedPhoto)
+                .error(R.drawable.error)
+                .load(feed.imageUrl);
+
     }
 
     }

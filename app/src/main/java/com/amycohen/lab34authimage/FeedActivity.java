@@ -25,11 +25,11 @@ public class FeedActivity extends AppCompatActivity {
     public static final String TAG = "FIREBASE: ";
 
     @BindView(R.id.feed) RecyclerView feed;
-    private RecyclerView recyclerView;
+//    private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private FeedAdapter feedAdapter;
 
-    //keep track of the users username
+    //keep track of the randomly generated photo reference
     private String mPhotos;
 
     List<Feed> allFeedItems;
@@ -40,7 +40,7 @@ public class FeedActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
-
+        Log.d("FEED_ACTIVITY", "OnCreate being hit from the Feed Activity");
         ButterKnife.bind(this);
 
 //        initializeUsername();
@@ -50,15 +50,17 @@ public class FeedActivity extends AppCompatActivity {
         mPublishedPhotos.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                DataSnapshot photoRef = (DataSnapshot) dataSnapshot.getValue();
                 List<Feed> photoItems = new ArrayList<>();
 
-                for (DataSnapshot photo : dataSnapshot.getChildren()){
-                    String photoKey = photo.getKey();
+//                for (DataSnapshot photo : dataSnapshot.getChildren()){
+                for (DataSnapshot photo : photoRef.getChildren()){
+                    String randomKey = photo.getKey();
                     String imageUrl = photo.child("imageUrl").getValue(String.class);
                     String description = photo.child("description").getValue(String.class);
                     String uid = photo.child("uid").getValue(String.class);
 
-                    Feed feedStatus = new Feed(photoKey, imageUrl, description, uid);
+                    Feed feedStatus = new Feed(randomKey, imageUrl, description, uid);
                     photoItems.add(feedStatus);
                 }
                 feedAdapter.replaceList(photoItems);
@@ -73,11 +75,10 @@ public class FeedActivity extends AppCompatActivity {
 
 //        attachListeners();
         linearLayoutManager = new LinearLayoutManager(this);
-//        recyclerView.setLayoutManager(linearLayoutManager);
 
         allFeedItems = new ArrayList<>();
+//        allFeedItems.add(new Feed("lsdknvaowif3hr9w3uroasjln", "https://i.imgur.com/FFYSnzg.jpg", "fabric bundle that is cool", "0987ytrfdxcvhjk"));
         feedAdapter = new FeedAdapter(allFeedItems);
-//        recyclerView.setAdapter(feedAdapter);
 
         feed.setLayoutManager(linearLayoutManager);
         feed.setAdapter(feedAdapter);
@@ -90,18 +91,24 @@ public class FeedActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-//    private void initializeUsername() {
-//        Intent data = getIntent();
-//        mPhotos = data.getStringExtra("photos");
-//
-//        mPublishedPhotos.addListenerForSingleValueEvent(new ValueEventListener() {
+//    public void attachListeners() {
+//        mPublishedPhotos =  FirebaseDatabase.getInstance().getReference();
+//        mPublishedPhotos.addValueEventListener(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(DataSnapshot dataSnapshot) {
-//                if(!dataSnapshot.hasChild(mPhotos)) {
-//                    DatabaseReference userRef = mPublishedPhotos.child(mPhotos);
-//                    userRef.child("status").setValue("online");
-//                    userRef.child("statusText").setValue("");
+//                List<Feed> photoItems = new ArrayList<>();
+//
+//                for (DataSnapshot photo : dataSnapshot.getChildren()){
+//                    String photoKey = photo.getKey();
+//                    String imageUrl = photo.child("imageUrl").getValue(String.class);
+//                    String description = photo.child("description").getValue(String.class);
+//                    String uid = photo.child("uid").getValue(String.class);
+//
+//                    Feed feedStatus = new Feed(photoKey, imageUrl, description, uid);
+//                    photoItems.add(feedStatus);
 //                }
+//                feedAdapter.replaceList(photoItems);
+//                feedAdapter.notifyDataSetChanged();
 //            }
 //
 //            @Override
@@ -110,42 +117,4 @@ public class FeedActivity extends AppCompatActivity {
 //            }
 //        });
 //    }
-
-    public void attachListeners() {
-        mPublishedPhotos =  FirebaseDatabase.getInstance().getReference();
-        mPublishedPhotos.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                List<Feed> photoItems = new ArrayList<>();
-
-                for (DataSnapshot photo : dataSnapshot.getChildren()){
-                    String photoKey = photo.getKey();
-                    String imageUrl = photo.child("imageUrl").getValue(String.class);
-                    String description = photo.child("description").getValue(String.class);
-                    String uid = photo.child("uid").getValue(String.class);
-
-                    Feed feedStatus = new Feed(photoKey, imageUrl, description, uid);
-                    photoItems.add(feedStatus);
-                }
-                feedAdapter.replaceList(photoItems);
-                feedAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-//    public void setStatus (String status) {
-//        String username = mUsername;
-//        String statusText = mEditText.getText().toString();
-//
-//        DatabaseReference user = mUsers.child(username);
-//
-//        user.child("status").setValue(status);
-//        user.child("statusText").setValue(statusText);
-//    }
-
 }
