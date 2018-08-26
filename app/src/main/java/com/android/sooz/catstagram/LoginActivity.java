@@ -119,28 +119,30 @@ public class LoginActivity extends AppCompatActivity {
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
 
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            //report sign in success with signed in info
-                            Log.d(TAG, "createUserWithEmail: successful");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+        Task<AuthResult> task = mAuth.createUserWithEmailAndPassword(email,password);
+        Log.d("AUTH", "task null?: " + task);
 
-                            //toast set up review in lecture and from
-                            //https://developer.android.com/guide/topics/ui/notifiers/toasts
-                            CharSequence text = "successfully logged in as: " + user;
-                            Toast.makeText(LoginActivity.this, text, Toast.LENGTH_SHORT).show();
-                        } else {
-                            //if logging in fails, tell the user and developer
-                            Log.d(TAG, "createUserWithEmail: failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Login failed.", Toast.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
-                    }
-                });
+        task.addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    //report sign in success with signed in info
+                    Log.d(TAG, "createUserWithEmail: successful");
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    updateUI(user);
+
+                    //toast set up review in lecture and from
+                    //https://developer.android.com/guide/topics/ui/notifiers/toasts
+                    CharSequence text = "successfully logged in as: " + user.getEmail();
+                    Toast.makeText(LoginActivity.this, text, Toast.LENGTH_SHORT).show();
+                } else {
+                    //if logging in fails, tell the user and developer
+                    Log.d(TAG, "createUserWithEmail: failure", task.getException());
+                    Toast.makeText(LoginActivity.this, "Login failed.", Toast.LENGTH_SHORT).show();
+                    updateUI(null);
+                }
+            }
+        });
     }
 
     @OnClick(R.id.anonLogin)
@@ -151,20 +153,20 @@ public class LoginActivity extends AppCompatActivity {
         task.addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                Log.d("AUTH", "complete");
-                if (task.isSuccessful()) {
-                    Log.d("AUTH", "success");
-                    //report sign in success with signed in info
-                    Log.d(TAG, "createAnonymousUser: successful");
+            Log.d("AUTH", "complete");
+            if (task.isSuccessful()) {
+                Log.d("AUTH", "success");
+                //report sign in success with signed in info
+                Log.d(TAG, "createAnonymousUser: successful");
 
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    updateUI(user);
+                FirebaseUser user = mAuth.getCurrentUser();
+                updateUI(user);
 
-                    //toast set up review in lecture and from
-                    //https://developer.android.com/guide/topics/ui/notifiers/toasts
-                    CharSequence text = "successfully logged in anonymously as: " + user;
-                    Toast.makeText(LoginActivity.this, text, Toast.LENGTH_SHORT).show();
-                }
+                //toast set up review in lecture and from
+                //https://developer.android.com/guide/topics/ui/notifiers/toasts
+                CharSequence text = "successfully logged in anonymously as: " + user;
+                Toast.makeText(LoginActivity.this, text, Toast.LENGTH_SHORT).show();
+            }
             }
         });
     }
