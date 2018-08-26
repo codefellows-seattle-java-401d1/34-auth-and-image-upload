@@ -50,11 +50,12 @@ public class FeedActivity extends AppCompatActivity {
         mPublishedPhotos.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                DataSnapshot photoRef = (DataSnapshot) dataSnapshot.getValue();
+//                DataSnapshot photoRef = dataSnapshot.child("-LKlmkfOGNfxQbcBXI6U");
+                Iterable<DataSnapshot> photoRef = dataSnapshot.child("photos").getChildren();
                 List<Feed> photoItems = new ArrayList<>();
 
 //                for (DataSnapshot photo : dataSnapshot.getChildren()){
-                for (DataSnapshot photo : photoRef.getChildren()){
+                for (DataSnapshot photo : photoRef){
                     String randomKey = photo.getKey();
                     String imageUrl = photo.child("imageUrl").getValue(String.class);
                     String description = photo.child("description").getValue(String.class);
