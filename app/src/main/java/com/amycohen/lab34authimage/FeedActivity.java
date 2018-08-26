@@ -25,12 +25,8 @@ public class FeedActivity extends AppCompatActivity {
     public static final String TAG = "FIREBASE: ";
 
     @BindView(R.id.feed) RecyclerView feed;
-//    private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private FeedAdapter feedAdapter;
-
-    //keep track of the randomly generated photo reference
-    private String mPhotos;
 
     List<Feed> allFeedItems;
 
@@ -43,18 +39,14 @@ public class FeedActivity extends AppCompatActivity {
         Log.d("FEED_ACTIVITY", "OnCreate being hit from the Feed Activity");
         ButterKnife.bind(this);
 
-//        initializeUsername();
-
-//         Read from the database
+//      Read from the database
         mPublishedPhotos =  FirebaseDatabase.getInstance().getReference();
         mPublishedPhotos.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-//                DataSnapshot photoRef = dataSnapshot.child("-LKlmkfOGNfxQbcBXI6U");
                 Iterable<DataSnapshot> photoRef = dataSnapshot.child("photos").getChildren();
                 List<Feed> photoItems = new ArrayList<>();
 
-//                for (DataSnapshot photo : dataSnapshot.getChildren()){
                 for (DataSnapshot photo : photoRef){
                     String randomKey = photo.getKey();
                     String imageUrl = photo.child("imageUrl").getValue(String.class);
@@ -74,11 +66,9 @@ public class FeedActivity extends AppCompatActivity {
             }
         });
 
-//        attachListeners();
         linearLayoutManager = new LinearLayoutManager(this);
 
         allFeedItems = new ArrayList<>();
-//        allFeedItems.add(new Feed("lsdknvaowif3hr9w3uroasjln", "https://i.imgur.com/FFYSnzg.jpg", "fabric bundle that is cool", "0987ytrfdxcvhjk"));
         feedAdapter = new FeedAdapter(allFeedItems);
 
         feed.setLayoutManager(linearLayoutManager);
@@ -91,31 +81,4 @@ public class FeedActivity extends AppCompatActivity {
         Intent intent = new Intent(this, PhotoUploadActivity.class);
         startActivity(intent);
     }
-
-//    public void attachListeners() {
-//        mPublishedPhotos =  FirebaseDatabase.getInstance().getReference();
-//        mPublishedPhotos.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                List<Feed> photoItems = new ArrayList<>();
-//
-//                for (DataSnapshot photo : dataSnapshot.getChildren()){
-//                    String photoKey = photo.getKey();
-//                    String imageUrl = photo.child("imageUrl").getValue(String.class);
-//                    String description = photo.child("description").getValue(String.class);
-//                    String uid = photo.child("uid").getValue(String.class);
-//
-//                    Feed feedStatus = new Feed(photoKey, imageUrl, description, uid);
-//                    photoItems.add(feedStatus);
-//                }
-//                feedAdapter.replaceList(photoItems);
-//                feedAdapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
 }

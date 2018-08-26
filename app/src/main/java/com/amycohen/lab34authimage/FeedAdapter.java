@@ -1,6 +1,5 @@
 package com.amycohen.lab34authimage;
 
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +10,6 @@ import android.widget.TextView;
 import com.koushikdutta.ion.Ion;
 
 import java.util.List;
-
-import static android.support.v7.widget.RecyclerView.*;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyFeedViewHolder>{
     private List<Feed> mFeed;
@@ -71,7 +68,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyFeedViewHold
     public void bind(Feed feed) {
         mFeedItems = feed;
 
-        this.userID.setText(feed.uid);
+        this.userID.setText("Contributed by " + feed.uid);
         this.description.setText(feed.description);
         Ion.with(publishedPhoto)
                 .error(R.drawable.error)
