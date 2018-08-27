@@ -15,14 +15,17 @@ import java.util.List;
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PostViewHolder>{
     private List<Post> mPosts;
 
+    public FeedAdapter(List<Post> allPostitems){
+        mPosts = allPostitems;
+
+    }
+
     @Override
     public int getItemCount(){
-
         return mPosts.size();
     }
 
     public void setPosts(List<Post> posts){
-
         mPosts = posts;
     }
 

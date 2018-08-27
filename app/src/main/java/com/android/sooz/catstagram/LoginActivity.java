@@ -55,8 +55,8 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.usernameInfo)
     public TextView mUsernameInfo;
 
-    @BindView(R.id.procceedToFeed)
-    public Button mProcceedToFeed;
+    @BindView(R.id.goToFeed)
+    public Button mGoToFeed;
 
     @BindView(R.id.logout)
     public Button mLogout;
@@ -159,8 +159,8 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    @OnClick(R.id.procceedToFeed)
-    public void procceedToFeed() {
+    @OnClick(R.id.goToFeed)
+    public void gotToFeed() {
         FirebaseUser user = mAuth.getCurrentUser();
         Intent intent = new Intent(this, FeedActivity.class);
         intent.putExtra("uid", user.getUid());

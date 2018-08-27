@@ -41,8 +41,8 @@ public class UploadActivity extends AppCompatActivity {
 
     private static final int REQUEST_SAVE_PHOTO = 1;
 
-    private Bitmap mBitmap;
-    private String mCurrentPhotoPath;
+    private Bitmap mBitmap = null;
+    private String mCurrentPhotoPath = null;
 
     private StorageReference mStorageRef;
 
@@ -143,26 +143,6 @@ public class UploadActivity extends AppCompatActivity {
             });
     }
 
-//
-//    Uri file = Uri.fromFile(new File("path/to/images/rivers.jpg"));
-//    StorageReference riversRef = storageRef.child("images/rivers.jpg");
-//
-//riversRef.putFile(file)
-//            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//        @Override
-//        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//            // Get a URL to the uploaded content
-//            Uri downloadUrl = taskSnapshot.getDownloadUrl();
-//        }
-//    })
-//            .addOnFailureListener(new OnFailureListener() {
-//        @Override
-//        public void onFailure(@NonNull Exception exception) {
-//            // Handle unsuccessful uploads
-//            // ...
-//        }
-//    });
-
     //save photo storage info to the application database
     private void saveImageUrlToDatabase(Uri storageUrl) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -184,16 +164,6 @@ public class UploadActivity extends AppCompatActivity {
 
         populateFeed();
 
-    }
-
-    //method to actually fill up feed view and go there
-    public void populateFeed(){
-        Intent intent = new Intent(this, FeedActivity.class);
-
-        //editor doesn't like this. maybe don't need to pass username between
-        //every activity? holding on to this for later review, just in case
-//        intent.putExtra(mAuth.getCurrentUser().getUid());
-        startActivity(intent);
     }
 
     //taken from prior lab
@@ -281,5 +251,15 @@ public class UploadActivity extends AppCompatActivity {
 //        });
 //
 //    }
+
+    //method to actually fill up feed view and go there
+    public void populateFeed(){
+        Intent intent = new Intent(this, FeedActivity.class);
+
+        //editor doesn't like this. maybe don't need to pass username between
+        //every activity? holding on to this for later review, just in case
+//        intent.putExtra(mAuth.getCurrentUser().getUid());
+        startActivity(intent);
+    }
 
 }

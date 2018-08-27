@@ -11,6 +11,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -23,22 +28,22 @@ import butterknife.OnClick;
 
 public class FeedActivity extends AppCompatActivity {
 
-    private StorageReference mStorageRef;
-
     private FirebaseAuth mAuth;
 
     @BindView(R.id.logout)
     public Button mLogout;
 
-    @BindView(R.id.upload)
-    public Button mUpload;
+    @BindView(R.id.post)
+    public Button mUploadPost;
 
     @BindView(R.id.feed)
     public RecyclerView recyclerView;
     public LinearLayoutManager linearLayoutManager;
     public FeedAdapter postAdapter;
 
-    private List<Post> mPosts;
+     List<Post> mAllPosts;
+
+     DatabaseReference mPublishedPhotos;
 
 
     @Override
@@ -48,27 +53,43 @@ public class FeedActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        mStorageRef = FirebaseStorage.getInstance().getReference();
+        mPublishedPhotos = FirebaseDatabase.getInstance().getReference();
+        mPublishedPhotos.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> photoRef = dataSnapshot.child("photos").getChildren();
+                List<Post> photoItems = new ArrayList<>();
 
-        //instantiate a new list of posts
-        mPosts = new ArrayList<>();
+                for (DataSnapshot photo : photoRef){
+                    String randomKey = photo.getKey();
+                    String imageUrl = photo.child("imageUrl").getValue(String.class);
+                    String description = photo.child("description").getValue(String.class);
+                    String uid = photo.child("uid").getValue(String.class);
+
+                    Post feedStatus = new Post(randomKey, imageUrl, description, uid);
+                    photoItems.add(feedStatus);
+                }
+                postAdapter.setPosts(photoItems);
+                postAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         //instantiate layout manager variable using context of content
         //from this instance of this view
         linearLayoutManager = new LinearLayoutManager(this);
 
+        //instantiate a new list of posts
+        mAllPosts = new ArrayList<>();
+
         //instantiate a new post adapter to populate posts in feed
-        postAdapter = new FeedAdapter();
+        postAdapter = new FeedAdapter(mAllPosts);
 
-        //populate postAdapter with new list of posts
-        postAdapter.setPosts(mPosts);
-
-        //populate the recyclerview of this activity with the content
-        //from this view now that it has a new list of posts
         recyclerView.setLayoutManager(linearLayoutManager);
-
-        //actually populate the posts, using the postAdapter, into the
-        //recycler view within the feed activity view layout
         recyclerView.setAdapter(postAdapter);
     }
 
