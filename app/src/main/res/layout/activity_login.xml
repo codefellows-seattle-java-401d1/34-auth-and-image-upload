@@ -117,7 +117,7 @@
                     android:id="@+id/logout"
                     android:padding="10sp"
                     android:textAlignment="center"
-                    android:text="@string/anonymous_login"
+                    android:text="@string/log_out"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 

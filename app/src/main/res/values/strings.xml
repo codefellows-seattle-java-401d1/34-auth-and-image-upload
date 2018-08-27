@@ -8,4 +8,5 @@
     <string name="photo_description">photo description</string>
     <string name="take_picture">Take Picture</string>
     <string name="publish_photo">Publish Photo</string>
+    <string name="log_out">log out</string>
 </resources>
