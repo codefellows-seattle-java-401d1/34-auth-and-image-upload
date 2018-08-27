@@ -36,7 +36,7 @@ public class FeedActivity extends AppCompatActivity {
     @BindView(R.id.feed)
     public RecyclerView recyclerView;
     public LinearLayoutManager linearLayoutManager;
-    public PostAdapter postAdapter;
+    public FeedAdapter postAdapter;
 
     private List<Post> mPosts;
 

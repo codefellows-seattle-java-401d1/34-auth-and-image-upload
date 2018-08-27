@@ -12,7 +12,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder>{
+public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PostViewHolder>{
     private List<Post> mPosts;
 
     @Override
@@ -61,8 +61,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         public void bind(Post post){
             mPost = post;
 
-            mUsername.setText(post.username);
-            mDescription.setText(post.description);
+            this.mUsername.setText(post.username);
+            this.mDescription.setText(post.description);
 
             Picasso.get()
                     .load(post.imageUrl)
