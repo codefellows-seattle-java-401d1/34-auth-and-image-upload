@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">AdventureGram</string>
+    <string name="browse_anonymously">browse anonymously</string>
+    <string name="login">login</string>
+    <string name="password">password</string>
+    <string name="username">username</string>
+    <string name="welcome_to_adventuregram">Welcome to AdventureGram</string>
+    <string name="post_a_pic">Post a picture</string>
+    <string name="post">Post</string>
+    <string name="signed_in_as">Signed in as:</string>
+    <string name="email">email</string>
+    <string name="go_to_feed">go to feed</string>
+    <string name="logout">logout</string>
+</resources>
