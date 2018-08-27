@@ -29,8 +29,8 @@ public class LoginActivity extends AppCompatActivity {
 
     //Options when not logged in (i.e. Logged out)
 
-//    @BindView(R.id.loggedOutOptions)
-//    public View mLoggedOutOptions;
+    @BindView(R.id.loggedOutOptions)
+    public View mLoggedOutOptions;
 
     @BindView(R.id.email)
     public TextView mEmail;
@@ -46,8 +46,8 @@ public class LoginActivity extends AppCompatActivity {
 
     //Options when already logged in
 
-//    @BindView(R.id.loggedInOptions)
-//    public View mLoggedInOptions;
+    @BindView(R.id.loggedInOptions)
+    public View mLoggedInOptions;
 
     @BindView(R.id.usernameInfoLabel)
     public TextView mSignedInAs;
@@ -80,10 +80,11 @@ public class LoginActivity extends AppCompatActivity {
         if (user != null && user.getUid() != null) {
             if (user.getEmail() != null) {
                 mUsernameInfo.setText(user.getEmail() + " : " + user.getUid());
+                showLogout();
             } else {
                 mUsernameInfo.setText("Anonymous: " + user.getUid());
+                showLogout();
             }
-            showLogout();
         } else {
             mUsernameInfo.setText(R.string.must_be_logged_in);
             showLogin();
@@ -91,27 +92,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void showLogout() {
-        mEmail.setVisibility(View.GONE);
-        mPassword.setVisibility(View.GONE);
-        mEmailLogin.setVisibility(View.GONE);
-        mAnonLogin.setVisibility(View.GONE);
+        mLoggedOutOptions.setVisibility(View.GONE);
+        mLoggedInOptions.setVisibility(View.VISIBLE);
 
-        mSignedInAs.setVisibility(View.VISIBLE);
-        mUsernameInfo.setVisibility(View.VISIBLE);
-        mProcceedToFeed.setVisibility(View.VISIBLE);
-        mLogout.setVisibility(View.VISIBLE);
     }
 
     public void showLogin() {
-        mEmail.setVisibility(View.VISIBLE);
-        mPassword.setVisibility(View.VISIBLE);
-        mEmailLogin.setVisibility(View.VISIBLE);
-        mAnonLogin.setVisibility(View.VISIBLE);
-
-        mSignedInAs.setVisibility(View.GONE);
-        mUsernameInfo.setVisibility(View.GONE);
-        mProcceedToFeed.setVisibility(View.GONE);
-        mLogout.setVisibility(View.GONE);
+        mLoggedOutOptions.setVisibility(View.VISIBLE);
+        mLoggedInOptions.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.emailLogin)

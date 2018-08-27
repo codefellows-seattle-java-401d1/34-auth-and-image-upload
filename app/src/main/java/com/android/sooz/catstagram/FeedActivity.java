@@ -58,7 +58,7 @@ public class FeedActivity extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(this);
 
         //instantiate a new post adapter to populate posts in feed
-        postAdapter = new PostAdapter();
+        postAdapter = new FeedAdapter();
 
         //populate postAdapter with new list of posts
         postAdapter.setPosts(mPosts);

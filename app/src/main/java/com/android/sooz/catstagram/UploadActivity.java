@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -142,6 +143,26 @@ public class UploadActivity extends AppCompatActivity {
             });
     }
 
+//
+//    Uri file = Uri.fromFile(new File("path/to/images/rivers.jpg"));
+//    StorageReference riversRef = storageRef.child("images/rivers.jpg");
+//
+//riversRef.putFile(file)
+//            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//        @Override
+//        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//            // Get a URL to the uploaded content
+//            Uri downloadUrl = taskSnapshot.getDownloadUrl();
+//        }
+//    })
+//            .addOnFailureListener(new OnFailureListener() {
+//        @Override
+//        public void onFailure(@NonNull Exception exception) {
+//            // Handle unsuccessful uploads
+//            // ...
+//        }
+//    });
+
     //save photo storage info to the application database
     private void saveImageUrlToDatabase(Uri storageUrl) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -161,9 +182,21 @@ public class UploadActivity extends AppCompatActivity {
         newPhoto.child("description").setValue(description);
         newPhoto.child("imageUrl").setValue(storageUrl.toString());
 
+        populateFeed();
+
     }
 
+    //method to actually fill up feed view and go there
+    public void populateFeed(){
+        Intent intent = new Intent(this, FeedActivity.class);
 
+        //editor doesn't like this. maybe don't need to pass username between
+        //every activity? holding on to this for later review, just in case
+//        intent.putExtra(mAuth.getCurrentUser().getUid());
+        startActivity(intent);
+    }
+
+    //taken from prior lab
     //need to help application actually capture photo and save to Firebase storage
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
@@ -217,33 +250,36 @@ public class UploadActivity extends AppCompatActivity {
 //        uploadFile(bitmap);
     }
 
-    private void downloadFile(){
-
-        StorageReference photoRef = mStorageRef.child("photos/" + mCurrentPhotoPath);
-
-
-        File localFile = null;
-        try {
-            localFile = File.createTempFile("photos", "jpg");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        photoRef.getFile(localFile)
-                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        // Successfully downloaded data to local file
-                        // ...
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle failed download
-                // ...
-                exception.printStackTrace();
-            }
-        });
-
-    }
+    //from prior lab
+    //upon fresh review, not needed right now, but keeping
+    //for potential future implementation
+//    private void downloadFile(){
+//
+//        StorageReference photoRef = mStorageRef.child("photos/" + mCurrentPhotoPath);
+//
+//
+//        File localFile = null;
+//        try {
+//            localFile = File.createTempFile("photos", "jpg");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        photoRef.getFile(localFile)
+//                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                        // Successfully downloaded data to local file
+//                        // ...
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception exception) {
+//                // Handle failed download
+//                // ...
+//                exception.printStackTrace();
+//            }
+//        });
+//
+//    }
 
 }
