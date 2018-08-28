@@ -25,6 +25,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PostViewHolder
         return mPosts.size();
     }
 
+    //see monday lecture 3:14
     public void setPosts(List<Post> posts){
         mPosts = posts;
     }
@@ -71,7 +72,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PostViewHolder
 
             Picasso.get()
                     .load(post.imageUrl)
-                    .placeholder(R.drawable.loading)
+//                    .placeholder(R.drawable.loading)
                     .into(mImage);
         }
     }

@@ -17,7 +17,7 @@
     </android.support.v7.widget.RecyclerView>
 
     <Button
-        android:id="@+id/post"
+        android:id="@+id/takePicture"
         android:text="@string/take_picture"
         app:layout_constraintBottom_toTopOf="@id/logout"
         android:layout_width="match_parent"

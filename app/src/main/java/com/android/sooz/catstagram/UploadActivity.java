@@ -164,6 +164,8 @@ public class UploadActivity extends AppCompatActivity {
 
         populateFeed();
 
+        finish();
+
     }
 
     //taken from prior lab

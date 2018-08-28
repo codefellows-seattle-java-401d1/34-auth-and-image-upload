@@ -20,6 +20,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -30,14 +31,17 @@ public class FeedActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
+    public static final String TAG = "FIREBASE: ";
+
     @BindView(R.id.logout)
     public Button mLogout;
 
-    @BindView(R.id.post)
-    public Button mUploadPost;
+    @BindView(R.id.takePicture)
+    public Button mTakePicture;
 
     @BindView(R.id.feed)
     public RecyclerView recyclerView;
+
     public LinearLayoutManager linearLayoutManager;
     public FeedAdapter postAdapter;
 
@@ -51,7 +55,6 @@ public class FeedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
 
-        ButterKnife.bind(this);
 
         mPublishedPhotos = FirebaseDatabase.getInstance().getReference();
         mPublishedPhotos.addValueEventListener(new ValueEventListener() {
@@ -69,6 +72,7 @@ public class FeedActivity extends AppCompatActivity {
                     Post feedStatus = new Post(randomKey, imageUrl, description, uid);
                     photoItems.add(feedStatus);
                 }
+                Collections.reverse(photoItems);
                 postAdapter.setPosts(photoItems);
                 postAdapter.notifyDataSetChanged();
             }
@@ -93,23 +97,40 @@ public class FeedActivity extends AppCompatActivity {
         recyclerView.setAdapter(postAdapter);
     }
 
+    //class at 2:28 on Monday Aug 27
+//    private void loadPictures(){
+//        final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+//        firebaseDatabase.getReference("photos").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                String description =
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }
+
     //allows users to go to UploadActivity to post new photo
-    @OnClick(R.id.post)
-    public void post(){
+    @OnClick(R.id.takePicture)
+    public void takepicture(){
         Log.d("POST", "posting");
         Intent intent = new Intent (this, UploadActivity.class);
 
-        //pass user info to upload page so it can be used to be associated
-        //with uploaded photo in storage
-        String userId = mAuth.getCurrentUser().getUid();
-        String username = mAuth.getCurrentUser().getEmail();
-
-        //take care of anonymous user case
-        if (username == null){
-            username = "anonymous";
-        }
-
-        intent.putExtra(username, userId);
+        //may not need this...
+//        //pass user info to upload page so it can be used to be associated
+//        //with uploaded photo in storage
+//        String userId = mAuth.getCurrentUser().getUid();
+//        String username = mAuth.getCurrentUser().getEmail();
+//
+//        //take care of anonymous user case
+//        if (username == null){
+//            username = "anonymous";
+//        }
+//
+//        intent.putExtra(username, userId);
         startActivity(intent);
     }
 
