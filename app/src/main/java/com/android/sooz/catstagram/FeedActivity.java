@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,9 +37,6 @@ public class FeedActivity extends AppCompatActivity {
     List<Post> mAllPosts;
 
     DatabaseReference mPublishedPhotos;
-
-    @BindView(R.id.logout)
-    public Button mLogout;
 
     @BindView(R.id.takePicture)
     public Button mTakePicture;
@@ -70,14 +68,13 @@ public class FeedActivity extends AppCompatActivity {
                 for (DataSnapshot photo : photoRef){
                     String randomKey = photo.getKey();
                     String imageUrl = photo.child("imageUrl").getValue(String.class);
-                    String username = photo.child("username").getValue(String.class);
                     String description = photo.child("description").getValue(String.class);
                     String uid = photo.child("uid").getValue(String.class);
 
-                    Post feedStatus = new Post(randomKey, imageUrl, username, description, uid);
+                    Post feedStatus = new Post(randomKey, imageUrl, description, uid);
                     photoItems.add(feedStatus);
                 }
-                Collections.reverse(photoItems);
+//                Collections.reverse(photoItems);
                 postAdapter.replaceList(photoItems);
                 postAdapter.notifyDataSetChanged();
             }
@@ -102,64 +99,17 @@ public class FeedActivity extends AppCompatActivity {
         feed.setAdapter(postAdapter);
     }
 
-    //class at 2:28 on Monday Aug 27
-//    private void loadPictures(){
-//        final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-//        firebaseDatabase.getReference("photos").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                String description =
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
-
     //allows users to go to UploadActivity to post new photo
     @OnClick(R.id.takePicture)
-    public void takepicture(){
+    public void takePicture(){
         Log.d("POST", "posting");
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        String uid = user.getUid();
+
         Intent intent = new Intent (this, UploadActivity.class);
-
-        //may not need this...
-//        //pass user info to upload page so it can be used to be associated
-//        //with uploaded photo in storage
-//        String userId = mAuth.getCurrentUser().getUid();
-//        String username = mAuth.getCurrentUser().getEmail();
-//
-//        //take care of anonymous user case
-//        if (username == null){
-//            username = "anonymous";
-//        }
-//
-//        intent.putExtra(username, userId);
+        intent.putExtra("id", uid);
         startActivity(intent);
     }
 
-    //so users can logout from the feed view page and return to the login page
-    @OnClick(R.id.logout)
-    public void logout() {
-        String text = "You are being logged out";
-
-        //for email logged in users
-        if(mAuth.getCurrentUser().getEmail() != null) {
-            //let user know what is happening by clicking this button
-            Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
-        }
-
-        //for anonymous logged in users
-        if(mAuth.getCurrentUser().getEmail() == null) {
-            //let user know what is happening by clicking this button
-            Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
-        }
-
-
-        //log user out and take them back to login view
-        mAuth.signOut();
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }
 }

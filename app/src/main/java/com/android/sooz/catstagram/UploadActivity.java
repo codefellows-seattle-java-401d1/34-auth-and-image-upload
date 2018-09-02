@@ -212,7 +212,7 @@ public class UploadActivity extends AppCompatActivity {
 
         //from Amy Cohen's project 34...just in case
         mBitmap = bitmap;
-        //from original project 31 maybe not needed? NOT YET
+        //from project 31
         uploadFile();
     }
 
