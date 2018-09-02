@@ -9,6 +9,7 @@ import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,12 +26,12 @@ import butterknife.OnClick;
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LOGIN";
 
-    private FirebaseAuth mAuth;
+    FirebaseAuth mAuth;
 
     //Options when not logged in (i.e. Logged out)
 
     @BindView(R.id.loggedOutOptions)
-    public View mLoggedOutOptions;
+    public LinearLayout mLoggedOutOptions;
 
     @BindView(R.id.email)
     public TextView mEmail;
@@ -47,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     //Options when already logged in
 
     @BindView(R.id.loggedInOptions)
-    public View mLoggedInOptions;
+    public LinearLayout mLoggedInOptions;
 
     @BindView(R.id.usernameInfoLabel)
     public TextView mSignedInAs;

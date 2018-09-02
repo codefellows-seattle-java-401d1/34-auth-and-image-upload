@@ -90,24 +90,6 @@ public class UploadActivity extends AppCompatActivity {
         }
     }
 
-    //saves taken picture as an image
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
-
-
     //from my project 31
     @OnClick(R.id.upload)
     public void uploadFile(){
@@ -117,30 +99,30 @@ public class UploadActivity extends AppCompatActivity {
             return;
         }
 
-        StorageReference photoRef = mStorageRef.child("photos/" + mCurrentPhotoPath);
+        StorageReference photoRef = mStorageRef.child("photos" + mCurrentPhotoPath);
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         mBitmap.compress(Bitmap.CompressFormat.JPEG,100, byteArrayOutputStream);
         byte[] data = byteArrayOutputStream.toByteArray();
 
         photoRef.putBytes(data)
-            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    //Get a URL to the uploaded content
-                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        //Get a URL to the uploaded content
+                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
 
-                    //from referring to Amy Cohen's code and
-                    //for when database connected - NOT YET
-                    UploadActivity.this.saveImageUrlToDatabase(downloadUrl);
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    exception.printStackTrace();
-                }
-            });
+                        //from referring to Amy Cohen's code and
+                        //for when database connected - NOT YET
+                        UploadActivity.this.saveImageUrlToDatabase(downloadUrl);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        exception.printStackTrace();
+                    }
+                });
     }
 
     //save photo storage info to the application database
@@ -150,7 +132,7 @@ public class UploadActivity extends AppCompatActivity {
         String uid = user.getUid();
         String description = mDescription.getText().toString();
 
-        Log.d("UPLOAD: ", "user " + uid + "photo description: " + description);
+        Log.d("UPLOAD: ", "user id " + uid + "photo description: " + description);
 
         //Put info into the database - instead of storing within the app
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -165,15 +147,31 @@ public class UploadActivity extends AppCompatActivity {
         populateFeed();
 
     }
-
     //taken from prior lab
     //need to help application actually capture photo and save to Firebase storage
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if(requestCode == REQUEST_SAVE_PHOTO && resultCode == RESULT_OK){
-             setPictureFromFile();
-//           galleryAddPic();
+            setPictureFromFile();
         }
+    }
+
+
+    //saves taken picture as an image
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".bmp",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = image.getAbsolutePath();
+        return image;
     }
 
     private void setPictureFromFile(){
@@ -184,9 +182,7 @@ public class UploadActivity extends AppCompatActivity {
 
         //change picture from bitmap object stored in Firebase Storage to bitmap object for app
         BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-
         bitmapOptions.inJustDecodeBounds = true;
-
         BitmapFactory.decodeFile(mCurrentPhotoPath, bitmapOptions);
 
         //set dimensions of picture
@@ -217,40 +213,8 @@ public class UploadActivity extends AppCompatActivity {
         //from Amy Cohen's project 34...just in case
         mBitmap = bitmap;
         //from original project 31 maybe not needed? NOT YET
-//        uploadFile(bitmap);
+        uploadFile();
     }
-
-    //from prior lab
-    //upon fresh review, not needed right now, but keeping
-    //for potential future implementation
-//    private void downloadFile(){
-//
-//        StorageReference photoRef = mStorageRef.child("photos/" + mCurrentPhotoPath);
-//
-//
-//        File localFile = null;
-//        try {
-//            localFile = File.createTempFile("photos", "jpg");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        photoRef.getFile(localFile)
-//                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-//                    @Override
-//                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-//                        // Successfully downloaded data to local file
-//                        // ...
-//                    }
-//                }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception exception) {
-//                // Handle failed download
-//                // ...
-//                exception.printStackTrace();
-//            }
-//        });
-//
-//    }
 
     //method to actually fill up feed view and go there
     public void populateFeed(){
