@@ -10,10 +10,9 @@
         android:id="@+id/feed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="10sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/takePicture">
-
-
     </android.support.v7.widget.RecyclerView>
 
     <Button
@@ -28,5 +27,4 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
 </android.support.constraint.ConstraintLayout>

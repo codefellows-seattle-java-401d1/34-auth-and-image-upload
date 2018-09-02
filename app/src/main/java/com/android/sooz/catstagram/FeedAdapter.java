@@ -21,6 +21,21 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PostViewHolder
     }
 
     @Override
+    public PostViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.post_item, parent, false);
+
+        PostViewHolder viewHolder = new PostViewHolder(view);
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(PostViewHolder postViewHolder, int i){
+        Post post = mPosts.get(i);
+        postViewHolder.bind(post);
+    }
+
+    @Override
     public int getItemCount(){
         return mPosts.size();
     }
@@ -30,24 +45,12 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PostViewHolder
         mPosts = posts;
     }
 
-    @NonNull
-    @Override
-    public PostViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-        View view = inflater.inflate(R.layout.post_item, viewGroup, false);
-
-        PostViewHolder viewHolder = new PostViewHolder(view);
-        return viewHolder;
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull PostViewHolder postViewHolder, int i){
-        Post post = mPosts.get(i);
-        postViewHolder.bind(post);
+    public void replaceList(List<Post> postItems) {
+        mPosts = postItems;
     }
 
     public class PostViewHolder extends RecyclerView.ViewHolder{
-        public View mView;
+        View mView;
 
         public ImageView mImage;
         public TextView mUsername;
@@ -55,7 +58,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PostViewHolder
 
         private Post mPost;
 
-        public PostViewHolder(@NonNull View itemView) {
+        public PostViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
 

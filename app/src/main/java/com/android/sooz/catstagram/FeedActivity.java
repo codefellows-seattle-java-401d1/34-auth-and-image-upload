@@ -33,6 +33,10 @@ public class FeedActivity extends AppCompatActivity {
 
     public static final String TAG = "FIREBASE: ";
 
+    List<Post> mAllPosts;
+
+    DatabaseReference mPublishedPhotos;
+
     @BindView(R.id.logout)
     public Button mLogout;
 
@@ -40,20 +44,20 @@ public class FeedActivity extends AppCompatActivity {
     public Button mTakePicture;
 
     @BindView(R.id.feed)
-    public RecyclerView recyclerView;
+    public RecyclerView feed;
 
     public LinearLayoutManager linearLayoutManager;
     public FeedAdapter postAdapter;
-
-     List<Post> mAllPosts;
-
-     DatabaseReference mPublishedPhotos;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
+
+        Log.d("FEED ACTIVITY", "OnCreate triggered from Feed Activity");
+
+        ButterKnife.bind(this);
 
 
         mPublishedPhotos = FirebaseDatabase.getInstance().getReference();
@@ -66,14 +70,15 @@ public class FeedActivity extends AppCompatActivity {
                 for (DataSnapshot photo : photoRef){
                     String randomKey = photo.getKey();
                     String imageUrl = photo.child("imageUrl").getValue(String.class);
+                    String username = photo.child("username").getValue(String.class);
                     String description = photo.child("description").getValue(String.class);
                     String uid = photo.child("uid").getValue(String.class);
 
-                    Post feedStatus = new Post(randomKey, imageUrl, description, uid);
+                    Post feedStatus = new Post(randomKey, imageUrl, username, description, uid);
                     photoItems.add(feedStatus);
                 }
                 Collections.reverse(photoItems);
-                postAdapter.setPosts(photoItems);
+                postAdapter.replaceList(photoItems);
                 postAdapter.notifyDataSetChanged();
             }
 
@@ -93,8 +98,8 @@ public class FeedActivity extends AppCompatActivity {
         //instantiate a new post adapter to populate posts in feed
         postAdapter = new FeedAdapter(mAllPosts);
 
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(postAdapter);
+        feed.setLayoutManager(linearLayoutManager);
+        feed.setAdapter(postAdapter);
     }
 
     //class at 2:28 on Monday Aug 27
@@ -137,8 +142,7 @@ public class FeedActivity extends AppCompatActivity {
     //so users can logout from the feed view page and return to the login page
     @OnClick(R.id.logout)
     public void logout() {
-        String text = mAuth.getCurrentUser().getEmail() + " you are being logged out";
-        String textAnon = mAuth.getCurrentUser().getUid()+ " you are being logged out";
+        String text = "You are being logged out";
 
         //for email logged in users
         if(mAuth.getCurrentUser().getEmail() != null) {
@@ -149,7 +153,7 @@ public class FeedActivity extends AppCompatActivity {
         //for anonymous logged in users
         if(mAuth.getCurrentUser().getEmail() == null) {
             //let user know what is happening by clicking this button
-            Toast.makeText(this, textAnon, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
         }
 
 

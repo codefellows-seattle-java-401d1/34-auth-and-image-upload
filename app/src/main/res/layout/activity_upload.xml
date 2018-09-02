@@ -10,16 +10,18 @@
         android:id="@+id/preview"
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
+        android:src="@drawable/placeholder"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/description"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
-        android:layout_width="0sp"
-        android:layout_height="0sp" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/description"
+        android:hint="@string/photo_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/upload"
