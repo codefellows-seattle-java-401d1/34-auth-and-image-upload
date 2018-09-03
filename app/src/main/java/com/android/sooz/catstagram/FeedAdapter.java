@@ -1,6 +1,5 @@
 package com.android.sooz.catstagram;
 
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,7 +52,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PostViewHolder
         View mView;
 
         public ImageView mImage;
-        public TextView mUsername;
+        public TextView mUid;
         public TextView mDescription;
 
         private Post mPost;
@@ -63,14 +62,14 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PostViewHolder
             mView = itemView;
 
             mImage = mView.findViewById(R.id.photo);
-            mUsername = mView.findViewById(R.id.username);
+            mUid= mView.findViewById(R.id.uid);
             mDescription = mView.findViewById(R.id.description);
         }
 
         public void bind(Post post){
             mPost = post;
 
-            this.mUsername.setText(post.username);
+            this.mUid.setText(post.uid);
             this.mDescription.setText(post.description);
 
             Picasso.get()
