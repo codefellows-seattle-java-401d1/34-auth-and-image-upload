@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Catstagram</string>
+    <string name="anonymous_login">anonymous login</string>
+    <string name="must_be_logged_in">You must be logged in to view user details.</string>
+    <string name="go_to_feed">go to feed</string>
+    <string name="logged_in_as">you\'re logged in as:</string>
+    <string name="email_login">email login</string>
+    <string name="photo_description">photo description</string>
+    <string name="take_picture">Take Picture</string>
+    <string name="publish_photo">Publish Photo</string>
+    <string name="log_out">log out</string>
+</resources>
