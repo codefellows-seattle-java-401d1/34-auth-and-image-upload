@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "534099963312",
+    "firebase_url": "https://fakeinsta-abd28.firebaseio.com",
+    "project_id": "fakeinsta-abd28",
+    "storage_bucket": "fakeinsta-abd28.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:534099963312:android:2fb61bae0db6c7e3",
+        "android_client_info": {
+          "package_name": "assignment.panos_lab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "534099963312-tkqtfjssf2mectd51o8si2qbvbkdjp9e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "assignment.panos_lab",
+            "certificate_hash": "a4339c7ea0dcd2b75e86e7377b951cea9d94de6c"
+          }
+        },
+        {
+          "client_id": "534099963312-n873unvn27hs8nctejelb8u6bdj1k0ca.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADg7fHULQObGWsfOEPTTiYUZKvQG8wze0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "534099963312-n873unvn27hs8nctejelb8u6bdj1k0ca.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

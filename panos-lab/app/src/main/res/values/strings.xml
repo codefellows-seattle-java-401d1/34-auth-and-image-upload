@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">panos-lab</string>
+    <string name="password">password</string>
+    <string name="email">email</string>
+    <string name="sign_in_anonymously">Sign in Anonymously</string>
+    <string name="proceed_to_feed">Proceed to your feed</string>
+    <string name="logout">Logout</string>
+    <string name="sign_in">Sign In</string>
+    <string name="signed_in_as">None</string>
+    <string name="must_be_logged_in">Must be logged in!</string>
+</resources>
